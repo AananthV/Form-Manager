@@ -7,10 +7,10 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <?php require 'elements/header.php' ?>
+    <?php require_once('elements/header.php'); ?>
   </head>
   <body>
-    <?php require 'elements/navbar.php' ?>
+    <?php require_once('elements/navbar.php'); ?>
 
     <div class="container">
       <div class="jumbotron">
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <?php require 'elements/auth.php' ?>
-    <?php require 'elements/footer.php' ?>
+    <?php require_once('elements/auth.php'); ?>
+    <?php require_once('elements/footer.php'); ?>
   </body>
 </html>
