@@ -1,0 +1,13 @@
+.border-danger {
+  border-width: 2px!important;
+  box-shadow: 0 0 0 0.1rem #dc354544!important;
+}
+.border-danger:focus {
+  box-shadow: 0 0 0 0.2rem #dc354544!important;
+}
+.mylist-item-title {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.mylist-item {
+}

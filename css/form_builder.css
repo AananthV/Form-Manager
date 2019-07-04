@@ -1,0 +1,110 @@
+.container {
+  background-color: #fafafa;
+  margin-bottom: 144px;
+}
+
+.vertical-rule {
+  border-left: 1px solid;
+  height: 100%;
+}
+
+.form-item-footer i {
+  font-size: 1.2em;
+}
+
+.form-item-footer .custom-control {
+  display: inline-block;
+}
+
+.item {
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid;
+  border-radius: 1px;
+  box-shadow: 2px 1px 5px black;
+}
+
+.item-type-dropdown {
+  min-width: 100%;
+}
+
+.dropdown {
+  padding: 0;
+}
+
+.form-title {
+  font-size: 2.5em;
+}
+
+.form-desciption {
+  font-size: 1.5em;
+}
+
+.form-item-question {
+  font-size: 2em;
+}
+
+.form-item-description {
+  font-size: 1em;
+}
+
+input.border-danger {
+  border-width: 2px!important;
+}
+.border-danger:focus {
+  box-shadow: 0 0 0 0.2rem #dc354544!important;
+}
+
+.invalid-answer-container {
+  box-shadow: 0 0 0 0.2rem #dc354544!important;
+}
+
+#add-item-menu {
+  z-index: 999;
+  background-color: white;
+  border: 1px solid;
+  box-shadow: 0 3px 5px #00000055;
+}
+
+#footer-container {
+  margin-bottom: 8px;
+}
+
+#submit-button {
+  box-shadow: 0 0 5px;
+}
+
+@media only screen and (max-width: 768px) {
+  #add-item-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 90%;
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  #item-menu-container {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  #form-wrapper {
+    padding-right: 0;
+  }
+  #add-item-menu {
+    position: sticky;
+    top: 168px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
