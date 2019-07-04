@@ -1,10 +1,10 @@
 <?php
   session_start();
 
-  require '../helpers/data_validation.php';
-  require '../helpers/validation.php';
-  require '../helpers/database.php';
-  require '../helpers/json.php';
+  require_once('../helpers/data_validation.php');
+  require_once('../helpers/validation.php');
+  require_once('../helpers/database.php');
+  require_once('../helpers/json.php');
 
   function getCheck() {
     if(
