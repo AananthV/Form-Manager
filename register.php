@@ -1,11 +1,11 @@
 <?php
   session_start();
 
-  require 'helpers/data_validation.php';
-  require 'helpers/validation.php';
-  require 'helpers/database.php';
-  require 'helpers/user.php';
-  require 'helpers/json.php';
+  require_once('helpers/data_validation.php');
+  require_once('helpers/validation.php');
+  require_once('helpers/database.php');
+  require_once('helpers/user.php');
+  require_once('helpers/json.php');
 
   function getRegister() {
     if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
