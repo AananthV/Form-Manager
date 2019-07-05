@@ -1,6 +1,8 @@
 <?php
   session_start();
 
+  $ROOT_PATH = '..';
+
   require_once('../helpers/data_validation.php');
   require_once('../helpers/validation.php');
   require_once('../helpers/database.php');

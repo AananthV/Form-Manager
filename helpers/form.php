@@ -58,6 +58,8 @@
 
     if($form_id == false) return false;
 
+    getDBInstance()->query('UPDATE users SET forms = forms + 1 WHERE id=' . $form_data->owner);
+
     foreach ($form_data->items as $item) {
       $question_id = addQuesion(
         $form_id,
@@ -163,8 +165,13 @@
         'form' => $answer_data->form
       )
     );
-    getDBInstance()->query('UPDATE forms SET answers = answers + 1 WHERE id=' . $answer_data->form);
+
     if($answer_id == false) return false;
+
+    getDBInstance()->query('UPDATE forms SET answers = answers + 1 WHERE id=' . $answer_data->form);
+
+    getDBInstance()->query('UPDATE users SET answers = answers + 1 WHERE id=' . $answer_data->user);
+
     foreach ($answer_data->answers as $answer) {
       if($answer->type == 0 && strlen($answer->answer) > 0) {
         $t_id = addTextAnswer($answer_id, $answer->question_id, $answer->answer, 'short');
