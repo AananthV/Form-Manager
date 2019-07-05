@@ -49,7 +49,7 @@
                 .'    </span>'
                 .'  </div>'
                 .'  <div class="col-sm-12 col-md-4 d-flex flex-row justify-content-around">'
-                .'    <button type="button" class="btn btn-outline-secondary col-6">See Responses</button>';
+                .'    <a class="btn btn-outline-secondary col-6" href="'. DOMAIN . 'view_responses.php?id=' . $form['id'] . '">See Responses</a>';
             if($form['active']){
               echo '    <button type="button" class="btn btn-outline-secondary col-6" onclick=share_form(' . $form['id'] . ')>Share</button>';
             } else {
