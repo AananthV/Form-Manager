@@ -9,5 +9,5 @@ A simple form manager built using raw php, mysql and Node.JS.
 
 ## Setting up form expiry
 1. Copy `config_example.js` into `config.js` and change default database settings. (Same as in config.php)
-2. Install the 'mysql' module using 'npm install mysql'.
-3. Run the expiry module with 'node expiry'.
+2. Install the `mysql` module using `npm`.
+3. Run the expiry module with `node expiry`.
