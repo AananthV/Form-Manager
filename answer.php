@@ -44,6 +44,7 @@
     <?php require_once('form_builder/include.php'); ?>
 
     <script type="text/javascript">
+      console.log('<?php echo json_encode($form); ?>');
       let invalid_answers = [];
 
       let hide_invalid_answers = function() {

@@ -88,7 +88,7 @@
           ) return false;
 
         if(
-          $question_data['isRequired'] && count($item->answer->selectedIds) == 0
+          $question_data['isRequired'] == 1 && count($item->answer->selectedIds) == 0
         ) {
           $invalid_answers[] = $item->question_id;
           continue;
@@ -120,7 +120,7 @@
             ) return false;
 
           if(
-            $question_data['isRequired'] && $item->answer->otherAnswer == ''
+            $question_data['isRequired'] == 1 && $item->answer->otherAnswer == ''
           ) {
             $invalid_answers[] = $item->question_id;
             continue;

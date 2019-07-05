@@ -215,20 +215,28 @@
     );
 
     foreach ($form_questions as $question) {
-      if($question['type'] == 1) {
+      if($question['type'] == 0) {
         $answer = getValues(
           'short_text_answers',
           array('value'),
           array('parent_answer' => $answer_id, 'question' => $question['id'])
         );
-        $answer_data[$question['id']] = ($answer !== false && $answer[0]['value']) || 'Not Answered.';
-      } else if ($question['type'] == 2) {
+        if($answer !== false) {
+          $answer_data[$question['id']] = $answer[0]['value'];
+        } else {
+          $answer_data[$question['id']] = 'Not Answered.';
+        }
+      } else if ($question['type'] == 1) {
         $answer = getValues(
           'long_text_answers',
           array('value'),
           array('parent_answer' => $answer_id, 'question' => $question['id'])
         );
-        $answer_data[$question['id']] = ($answer !== false && $answer[0]['value']) || 'Not Answered.';
+        if($answer !== false) {
+          $answer_data[$question['id']] = $answer[0]['value'];
+        } else {
+          $answer_data[$question['id']] = 'Not Answered.';
+        }
       } else {
         $choice_answer = array(
           'selectedIds' => array(),
@@ -261,7 +269,7 @@
               )[0]['value'];
             }
           }
-          $answer_data[$question['id']] = $choice_answer;
+          $answer_data[$question['id']] = (object) $choice_answer;
         }
       }
     }

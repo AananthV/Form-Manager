@@ -207,7 +207,6 @@ class TextInput extends FormItem {
     }
     return itemSpecificData;
   }
-  // TODO: setValidator()
   getItemEditBody() {
     // Create body div
     let body = document.createElement('div');
@@ -271,6 +270,7 @@ class ChoiceInput extends FormItem {
       if(isNaN(choice)) break; /* FIXME: Wierd bug changes choice to "insert" after the last choice. */
       this.addChoice();
       this.choices[choice].value = choices[choice].value;
+      this.choices[choice].isOther = choices[choice].isOther;
     }
     if(this.hasOther != undefined) {
       this.hasOther = hasOther;
