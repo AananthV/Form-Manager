@@ -6,7 +6,9 @@
 
   $error_codes = array(
     '1' => 'That form does not exist.',
-    '2' => 'That form is no longer active.'
+    '2' => 'That form is no longer active.',
+    '3' => 'You have already answered this form.',
+    '4' => 'Something went wrong...';
   );
 
   $error_code = 1;

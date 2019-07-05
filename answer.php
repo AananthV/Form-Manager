@@ -109,10 +109,10 @@
               window.location = '<?php echo DOMAIN; ?>answer_success.php';
             } else if (result.slice(0, 5) == 'ERROR') {
               if(result == 'ERROR: ALREADY SUBMITTED') {
-                alert('You have already submitted this form.');
+                window.location = '<?php echo DOMAIN; ?>form_error.php?error_code=3';
               } else {
                 console.log(result);
-                alert('Something went wrong...');
+                window.location = '<?php echo DOMAIN; ?>form_error.php?error_code=4';
               }
             } else {
               try {

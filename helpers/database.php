@@ -81,8 +81,18 @@
     if(!is_null($keys)) {
       $findQuery = '';
       foreach ($keys as $key => $value) {
-        $findQuery .= $key . ' = :' . $key . ' AND ';
-        $params[':' . $key] = $value;
+        if(
+          is_array($value) &&
+          isset($value['type']) &&
+          isset($value['value']) &&
+          $value['type'] == 'LIKE'
+        ) {
+          $findQuery .= $key . ' LIKE :' . $key . ' AND ';
+          $params[':' . $key] = $value['value'];
+        } else {
+          $findQuery .= $key . ' = :' . $key . ' AND ';
+          $params[':' . $key] = $value;
+        }
       }
       $findQuery = '('. rtrim($findQuery, ' AND ') . ')';
       $sql .= ' WHERE ' . $findQuery;

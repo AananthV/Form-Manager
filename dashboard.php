@@ -52,10 +52,22 @@
     $sort_by = $_GET['sort_by'];
     $sort_order = $_GET['sort_order'];
   }
+
+  $search_string = '';
+
+  // Searching.
+  if(
+    isset($_GET['search'])
+  ) {
+    $search_string = $_GET['search'];
+  }
   $user_forms = getValues(
     'forms',
     array('*'),
-    array('owner' => $user_id),
+    array(
+      'owner' => $user_id,
+      'title' => array('type' => 'LIKE', 'value' => '%' . $search_string . '%')
+    ),
     array($sort_by => $sort_order),
     array('offset' => ($page - 1) * 10, 'count' => 10)
   );
@@ -71,26 +83,39 @@
     <div class="container">
       <h1>Forms</h1>
       <ul id="form-list" class="list-group">
-        <li class="list-group-item d-flex flex-column flex-sm-row align-items-center justify-content-around">
-          <span class="mylist-item-title mr-0 mr-sm-2 mb-2 mb-sm-0">Sort By<span class="d-none d-sm-inline">:</span>
-          </span>
-          <select class="form-control col mr-0 mr-sm-2 mb-2 mb-sm-0" id="sort_by">
-            <?php
-              foreach ($sort_by_list as $key => $value) {
-                echo '<option value="' . $key . '"' . (($sort_by == $key) ? ' selected' : '') . '>' . $value . '</option>';
-              }
-            ?>
-          </select>
-          <select class="form-control col mr-0 mr-sm-2 mb-2 mb-sm-0" id="sort_order">
-            <?php
-              foreach ($sort_order_list as $key => $value) {
-                echo '<option value="' . $key . '"' . (($sort_order == $key) ? ' selected' : '') . '>' . $value . '</option>';
-              }
-            ?>
-          </select>
-          <button class="btn btn-success" onclick="sort_button()">Go!</button>
+        <li class="list-group-item d-flex flex-column flex-lg-row-reverse">
+          <div class="col-12 col-lg-5 align-items-center mb-2 mb-lg-0">
+            <div class="input-group">
+              <input type="search" class="form-control" placeholder="Search" aria-label="Search" id="search-string">
+              <div class="input-group-append">
+                <button class="btn btn-outline-success" type="button" id="search-button" onclick="search_button()">Search</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-7 d-flex flex-column flex-sm-row align-items-center justify-content-around">
+            <span class="mylist-item-title mr-0 mr-sm-2 mb-2 mb-sm-0">Sort By<span class="d-none d-sm-inline">:</span>
+            </span>
+            <select class="form-control col mb-2 mb-sm-0" id="sort_by">
+              <?php
+                foreach ($sort_by_list as $key => $value) {
+                  echo '<option value="' . $key . '"' . (($sort_by == $key) ? ' selected' : '') . '>' . $value . '</option>';
+                }
+              ?>
+            </select>
+            <select class="form-control col mb-2 mb-sm-0" id="sort_order">
+              <?php
+                foreach ($sort_order_list as $key => $value) {
+                  echo '<option value="' . $key . '"' . (($sort_order == $key) ? ' selected' : '') . '>' . $value . '</option>';
+                }
+              ?>
+            </select>
+            <button class="btn btn-outline-success" onclick="sort_button()">Go!</button>
+          </div>
         </li>
         <?php
+          if(count($user_forms) == 0) {
+            echo '<li class="list-group-item text-center">No forms found.</li>';
+          }
           foreach ($user_forms as $form) {
             $date_created = date_create($form['created']);
             echo '<li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-center">'
@@ -136,10 +161,15 @@
     </div>
 
     <script type="text/javascript">
+      let search_button = function() {
+        let search_string = document.querySelector('#search-string').value;
+        window.location = "<?php echo DOMAIN . 'dashboard.php?sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' ?>" + encodeURIComponent(search_string);
+      }
+
       let sort_button = function() {
         let sort_by = document.querySelector('#sort_by').value;
         let sort_order = document.querySelector('#sort_order').value;
-        window.location = '<?php DOMAIN ?>dashboard.php?sort_by=' + sort_by + '&sort_order=' + sort_order;
+        window.location = "<?php echo DOMAIN . 'dashboard.php?search=' . urlencode($search_string); ?>&sort_by=" + sort_by + "&sort_order=" + sort_order;
       }
 
       let new_form = function(template) {
