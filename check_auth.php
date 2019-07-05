@@ -1,6 +1,8 @@
 <?php
     session_start();
 
+    $ROOT_PATH = '.';
+
     require_once('helpers/database.php');
     require_once('helpers/user.php');
 
