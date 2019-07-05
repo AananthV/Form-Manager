@@ -12,10 +12,14 @@
     isset($_GET['id']) &&
     checkIfRowExists('forms', array('id' => $_GET['id']))
   )) {
-    require_once('go_home.php');
+    header('Location: ' . DOMAIN . 'form_error.php?error_code=1');
   }
 
   $form = getForm($_GET['id']);
+
+  if($form->active != 1) {
+    header('Location: ' . DOMAIN . 'form_error.php?error_code=2');
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -44,7 +48,6 @@
     <?php require_once('form_builder/include.php'); ?>
 
     <script type="text/javascript">
-      console.log('<?php echo json_encode($form); ?>');
       let invalid_answers = [];
 
       let hide_invalid_answers = function() {
@@ -90,7 +93,6 @@
           let user_id = await get_user_id();
           if(user_id != false) {
             form.owner = user_id;
-            console.log(JSON.stringify(form.getAnswer()));
             let submit_answer = new Promise(function(resolve, reject) {
               let xhttp = new XMLHttpRequest();
               xhttp.onreadystatechange = function() {

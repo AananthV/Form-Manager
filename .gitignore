@@ -1,2 +1,6 @@
 # IGNORE CONFIG;
 config.php
+form_expiry/config.js
+
+# IGNORE NODE MODULES
+form_expiry/node_modules

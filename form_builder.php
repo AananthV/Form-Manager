@@ -53,7 +53,6 @@
           let  user_id = await get_user_id();
           if(user_id != false) {
             form.owner = user_id;
-            console.log(JSON.stringify(form.getFormData()));
             let submit_form = new Promise(function(resolve, reject) {
               let xhttp = new XMLHttpRequest();
               xhttp.onreadystatechange = function() {

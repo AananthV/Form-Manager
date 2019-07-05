@@ -189,15 +189,33 @@
 
     // Expires.
     if(
-      property_exists($form->meta, 'expires') &&
+      !property_exists($form->meta, 'expires') &&
       !is_bool($form->meta->expires)
-      ) return 'ERROR: EXPIRES MUST BE BOOL';
+      ) return 'ERROR: EXPIRES DOES NOT EXIST';
 
     // Expiry
-    if(
-      property_exists($form->meta, 'expiry') &&
-      !is_int($form->meta->expiry)
-      ) return 'ERROR: EXPIRY MUST BE INT';
+    if($form->meta->expires == true) {
+      if(
+        !property_exists($form->meta, 'expiry') ||
+        !is_object($form->meta->expiry)
+        ) return 'ERROR: EXPIRY DOES NOT EXIST';
+
+      if(
+        !property_exists($form->meta->expiry, 'datetime') ||
+        !is_string($form->meta->expiry->datetime)
+        ) return 'ERROR: EXPIRY DATETIME DOES NOT EXIST';
+
+      if(
+        !property_exists($form->meta->expiry, 'timezone') ||
+        !is_string($form->meta->expiry->timezone)
+        ) return 'ERROR: EXPIRY TIMEZONE DOES NOT EXIST';
+
+      try {
+        date_create($form->meta->expiry->datetime, timezone_open($form->meta->expiry->timezone));
+      } catch (Exception $e) {
+        return 'ERROR: EXPIRY INVALID';
+      }
+    }
 
     // Check if form items exists.
     if(

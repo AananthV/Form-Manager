@@ -46,14 +46,21 @@
     return insertValues('forms', $values);
   }
 
+  function getExpiry($expires, $expiry) {
+    if($expires == true) {
+      return date_create($expiry->datetime, timezone_open($expiry->timezone))->format('Y-m-d H:i:s');
+    }
+    return null;
+  }
+
   function addForm($form_data) {
     $form_id = addFormData(
       $form_data->owner,
       $form_data->meta->title,
       $form_data->meta->description,
       count($form_data->items),
-      property_exists($form_data->meta, 'expires') && $form_data->meta->expires,
-      property_exists($form_data->meta, 'expiry') && $form_data->meta->expiry
+      $form_data->meta->expires,
+      getExpiry($form_data->meta->expires, $form_data->meta->expiry)
     );
 
     if($form_id == false) return false;

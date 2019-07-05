@@ -13,4 +13,11 @@
   define('DB_NAME', 'form_manager');
   define('DB_USERNAME', 'root');
   define('DB_PASSWORD', '');
+
+  /*
+  * Default timezone.
+  * Set this to the timezone your MYSQL Databse uses.
+  * Must be in IntlTimeZone format.
+  */
+  date_default_timezone_set("Asia/Calcutta");
 ?>
