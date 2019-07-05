@@ -17,6 +17,48 @@
   if($user_id == false) {
     require_once('go_home.php');
   }
+
+  // Changing page.
+  $page = 1;
+  if(
+    isset($_GET['page']) &&
+    is_numeric($_GET['page']) &&
+    intval($_GET['page']) > 0
+  ) {
+    $page = $_GET['page'];
+  }
+
+  // Sorting.
+  $sort_by_options = array('title', 'description', 'created', 'answers');
+  $sort_by_list = array(
+    'title' => 'Title',
+    'description' => 'Description',
+    'created' => 'Date Created',
+    'answers' => 'Responses'
+  );
+  $sort_order_options = array('ASC', 'DESC');
+  $sort_order_list = array(
+    'ASC' => 'Ascending',
+    'DESC' => 'Descending'
+  );
+  $sort_by = 'created';
+  $sort_order = 'DESC';
+  if(
+    isset($_GET['sort_by']) &&
+    in_array($_GET['sort_by'], $sort_by_options) &&
+    isset($_GET['sort_order']) &&
+    in_array($_GET['sort_order'], $sort_order_options)
+  ) {
+    $sort_by = $_GET['sort_by'];
+    $sort_order = $_GET['sort_order'];
+  }
+  $user_forms = getValues(
+    'forms',
+    array('*'),
+    array('owner' => $user_id),
+    array($sort_by => $sort_order),
+    array('offset' => ($page - 1) * 10, 'count' => 10)
+  );
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -29,8 +71,26 @@
     <div class="container">
       <h1>Forms</h1>
       <ul id="form-list" class="list-group">
+        <li class="list-group-item d-flex flex-column flex-sm-row align-items-center justify-content-around">
+          <span class="mylist-item-title mr-0 mr-sm-2 mb-2 mb-sm-0">Sort By<span class="d-none d-sm-inline">:</span>
+          </span>
+          <select class="form-control col mr-0 mr-sm-2 mb-2 mb-sm-0" id="sort_by">
+            <?php
+              foreach ($sort_by_list as $key => $value) {
+                echo '<option value="' . $key . '"' . (($sort_by == $key) ? ' selected' : '') . '>' . $value . '</option>';
+              }
+            ?>
+          </select>
+          <select class="form-control col mr-0 mr-sm-2 mb-2 mb-sm-0" id="sort_order">
+            <?php
+              foreach ($sort_order_list as $key => $value) {
+                echo '<option value="' . $key . '"' . (($sort_order == $key) ? ' selected' : '') . '>' . $value . '</option>';
+              }
+            ?>
+          </select>
+          <button class="btn btn-success" onclick="sort_button()">Go!</button>
+        </li>
         <?php
-          $user_forms = getValues('forms', array('*'), array('owner' => $user_id));
           foreach ($user_forms as $form) {
             $date_created = date_create($form['created']);
             echo '<li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-center">'
@@ -59,13 +119,29 @@
                 .'</li>';
           }
         ?>
-        <li class="list-group-item">
-          <button type="button" class="btn btn-success" onclick="new_form(9)">New Form</button>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <?php
+            if($page > 1) {
+              echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '">Prev</a>';
+            }
+          ?>
+          <button type="button" class="btn btn-success" onclick="new_form(0)">New Form</button>
+          <?php
+            if(count($user_forms) == 10) {
+              echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '">Next</a>';
+            }
+          ?>
         </li>
       </ul>
     </div>
 
     <script type="text/javascript">
+      let sort_button = function() {
+        let sort_by = document.querySelector('#sort_by').value;
+        let sort_order = document.querySelector('#sort_order').value;
+        window.location = '<?php DOMAIN ?>dashboard.php?sort_by=' + sort_by + '&sort_order=' + sort_order;
+      }
+
       let new_form = function(template) {
         let form = document.createElement('form');
         form.method = 'post';

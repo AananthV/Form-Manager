@@ -70,19 +70,36 @@
     }
   }
 
-  function getValues($table, $fields, $keys) {
+  function getValues($table, $fields, $keys = null, $orders = null, $limit = null) {
     // Get PDO instance
     $db = getDBInstance();
 
-    $findQuery = '';
     $params = array();
-    foreach ($keys as $key => $value) {
-      $findQuery .= $key . ' = :' . $key . ' AND ';
-      $params[':' . $key] = $value;
-    }
-    $findQuery = '('. rtrim($findQuery, ' AND ') . ')';
 
-    $sql = 'SELECT ' . implode(',', $fields) . ' FROM ' . $table . ' WHERE ' . $findQuery;
+    $sql = 'SELECT ' . implode(',', $fields) . ' FROM ' . $table;
+
+    if(!is_null($keys)) {
+      $findQuery = '';
+      foreach ($keys as $key => $value) {
+        $findQuery .= $key . ' = :' . $key . ' AND ';
+        $params[':' . $key] = $value;
+      }
+      $findQuery = '('. rtrim($findQuery, ' AND ') . ')';
+      $sql .= ' WHERE ' . $findQuery;
+    }
+
+    if(!is_null($orders)) {
+      $orderQuery = '';
+      foreach ($orders as $key => $value) {
+        $orderQuery .= $key . ' ' . $value . ', ';
+      }
+      $orderQuery = rtrim($orderQuery, ', ');
+      $sql .= ' ORDER BY ' . $orderQuery;
+    }
+
+    if(!is_null($limit)) {
+      $sql .= ' LIMIT ' . $limit['offset'] . ', ' . $limit['count'];
+    }
 
     try {
       $query = $db->prepare($sql);
