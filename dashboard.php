@@ -53,21 +53,37 @@
     $sort_order = $_GET['sort_order'];
   }
 
-  $search_string = '';
+  $search_array = array(
+    'owner' => $user_id
+  );
 
   // Searching.
+
+  $search_string = '';
+
   if(
     isset($_GET['search'])
   ) {
     $search_string = $_GET['search'];
+    $search_array['title'] = array('type' => 'LIKE', 'value' => '%' . $search_string . '%');
   }
+
+  // Active forms
+
+  $show_inactive = true;
+
+  if(
+    isset($_GET['show_inactive']) &&
+    $_GET['show_inactive'] == 'false'
+  ) {
+    $show_inactive = false;
+    $search_array['active'] = 1;
+  }
+
   $user_forms = getValues(
     'forms',
     array('*'),
-    array(
-      'owner' => $user_id,
-      'title' => array('type' => 'LIKE', 'value' => '%' . $search_string . '%')
-    ),
+    $search_array,
     array($sort_by => $sort_order),
     array('offset' => ($page - 1) * 10, 'count' => 10)
   );
@@ -84,9 +100,13 @@
       <h1>Forms</h1>
       <ul id="form-list" class="list-group mb-5">
         <li class="list-group-item d-flex flex-column flex-lg-row-reverse">
-          <div class="col-12 col-lg-5 align-items-center mb-2 mb-lg-0">
+          <div class="col-12 col-lg-5 d-flex flex-column flex-sm-row align-items-center mb-2 mb-lg-0">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="active-switch" oninput="toggle_active_items()">
+              <label class="custom-control-label" for="active-switch">Show Inactive</label>
+            </div>
             <div class="input-group">
-              <input type="search" class="form-control" placeholder="Search" aria-label="Search" id="search-string">
+              <input type="search" class="form-control" placeholder="Search" aria-label="Search" id="search-string" value="<?php echo $search_string; ?>">
               <div class="input-group-append">
                 <button class="btn btn-outline-success" type="button" id="search-button" onclick="search_button()">Search</button>
               </div>
@@ -111,6 +131,22 @@
             </select>
             <button class="btn btn-outline-success" onclick="sort_button()">Go!</button>
           </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center" id="first-nav">
+          <?php
+            if($page > 1) {
+              echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Prev</a>';
+            }
+          ?>
+          <a class="btn btn-success" onclick="new_form_button()" href="#first-nav">New Form</a>
+          <?php
+            if(count($user_forms) == 10) {
+              echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Next</a>';
+            }
+          ?>
+        </li>
+        <li id="form-templates" class="list-group-item row m-0 pb-0 d-none justify-content-around align-items-center">
+          <h5>Templates</h5>
         </li>
         <?php
           if(count($user_forms) == 0) {
@@ -147,18 +183,15 @@
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <?php
             if($page > 1) {
-              echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '">Prev</a>';
+              echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Prev</a>';
             }
           ?>
-          <button type="button" class="btn btn-success" onclick="new_form_button()">New Form</button>
+          <a class="btn btn-success" onclick="new_form_button()" href="#first-nav">New Form</a>
           <?php
             if(count($user_forms) == 10) {
-              echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '">Next</a>';
+              echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Next</a>';
             }
           ?>
-        </li>
-        <li id="form-templates" class="list-group-item row m-0 pb-0 d-none justify-content-around align-items-center">
-          <h5>Templates</h5>
         </li>
       </ul>
     </div>
@@ -198,20 +231,26 @@
         document.querySelector('#form-templates').appendChild(tb);
       }
 
+      document.querySelector('#active-switch').checked = <?php echo $show_inactive ? 'true' : 'false'; ?>;
+
+      let toggle_active_items = function() {
+        window.location = "<?php echo DOMAIN . 'dashboard.php?sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'false':'true'); ?>";
+      }
+
       let new_form_button = function() {
-        document.querySelector('#form-templates').classList.toggle('d-none');
-        document.querySelector('#form-templates').classList.toggle('d-flex');
+        document.querySelector('#form-templates').classList.remove('d-none');
+        document.querySelector('#form-templates').classList.add('d-flex');
       }
 
       let search_button = function() {
         let search_string = document.querySelector('#search-string').value;
-        window.location = "<?php echo DOMAIN . 'dashboard.php?sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' ?>" + encodeURIComponent(search_string);
+        window.location = "<?php echo DOMAIN . 'dashboard.php?sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&show_inactive=' . ($show_inactive?'true':'false') . '&search=' ?>" + encodeURIComponent(search_string);
       }
 
       let sort_button = function() {
         let sort_by = document.querySelector('#sort_by').value;
         let sort_order = document.querySelector('#sort_order').value;
-        window.location = "<?php echo DOMAIN . 'dashboard.php?search=' . urlencode($search_string); ?>&sort_by=" + sort_by + "&sort_order=" + sort_order;
+        window.location = "<?php echo DOMAIN . 'dashboard.php?search=' . urlencode($search_string) . '&show_inactive=' . ($show_inactive?'true':'false'); ?>&sort_by=" + sort_by + "&sort_order=" + sort_order;
       }
 
       let new_form = function(template) {
