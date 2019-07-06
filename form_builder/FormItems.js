@@ -333,13 +333,13 @@ class SelectChoice extends ChoiceInput {
     this.choiceTypes = {
       0: {
         'displayName': 'Multiple Choice',
-        'type': 'Radio',
+        'type': 'radio',
         'unCheckedIcon': '<i class="far fa-circle fa-lg fa-fw"></i>',
         'checkedIcon': '<i class="fas fa-dot-circle fa-lg fa-fw"></i>'
       },
       1: {
         'displayName': 'Checkboxes',
-        'type': 'Checkbox',
+        'type': 'checkbox',
         'unCheckedIcon': '<i class="far fa-square fa-lg fa-fw"></i>',
         'checkedIcon': '<i class="far fa-check-square fa-lg fa-fw"></i>'
       }
@@ -408,12 +408,12 @@ class SelectChoice extends ChoiceInput {
         otherRow.setAttribute('class', 'row ml-auto d-flex align-items-center');
 
         let checkEnclosingDiv = document.createElement('div');
-        checkEnclosingDiv.setAttribute('class', 'form-check');
+        checkEnclosingDiv.setAttribute('class', 'custom-control custom-' + this.choiceTypes[this.choiceType]['type']);
 
         // Create Input
         let inputOption = document.createElement('input');
         inputOption.setAttribute('type', this.choiceTypes[this.choiceType]['type']);
-        inputOption.setAttribute('class', 'form-check-input');
+        inputOption.setAttribute('class', 'custom-control-input');
         inputOption.setAttribute('name', 'answer-' + this.id);
         inputOption.setAttribute('value', this.choices[choice]['id']);
         inputOption.setAttribute('id', 'answer-' + this.id + '-option-' + this.choices[choice]['id']);
@@ -421,6 +421,7 @@ class SelectChoice extends ChoiceInput {
 
         // Create Label
         let inputLabel = document.createElement('label');
+        inputLabel.setAttribute('class', 'custom-control-label');
         inputLabel.setAttribute('for', 'answer-' + this.id + '-option-' + this.choices[choice]['id']);
         inputLabel.appendChild(document.createTextNode('Other:'));
         checkEnclosingDiv.appendChild(inputLabel);
@@ -443,12 +444,12 @@ class SelectChoice extends ChoiceInput {
       } else {
         // Create enclosing div
         let enclosingDiv = document.createElement('div');
-        enclosingDiv.setAttribute('class', 'form-check');
+        enclosingDiv.setAttribute('class', 'custom-control custom-' + this.choiceTypes[this.choiceType]['type']);
 
         // Create Input
         let inputOption = document.createElement('input');
         inputOption.setAttribute('type', this.choiceTypes[this.choiceType]['type']);
-        inputOption.setAttribute('class', 'form-check-input');
+        inputOption.setAttribute('class', 'custom-control-input');
         inputOption.setAttribute('name', 'answer-' + this.id);
         inputOption.setAttribute('value', this.choices[choice]['id']);
         inputOption.setAttribute('id', 'answer-' + this.id + '-option-' + this.choices[choice]['id']);
@@ -456,6 +457,7 @@ class SelectChoice extends ChoiceInput {
 
         // Create Label
         let inputLabel = document.createElement('label');
+        inputLabel.setAttribute('class', 'custom-control-label');
         inputLabel.setAttribute('for', 'answer-' + this.id + '-option-' + this.choices[choice]['id']);
         inputLabel.appendChild(document.createTextNode(this.choices[choice]['value']));
         enclosingDiv.appendChild(inputLabel);
