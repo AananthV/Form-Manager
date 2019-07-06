@@ -48,7 +48,9 @@
 
   function getExpiry($expires, $expiry) {
     if($expires == true) {
-      return date_create($expiry->datetime, timezone_open($expiry->timezone))->format('Y-m-d H:i:s');
+      $datetime = date_create($expiry->datetime, timezone_open($expiry->timezone));
+      $datetime->setTimezone(timezone_open(SERVER_TIMEZONE));
+      return $datetime->format('Y-m-d H:i:s');
     }
     return null;
   }

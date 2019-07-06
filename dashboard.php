@@ -71,6 +71,18 @@
     array($sort_by => $sort_order),
     array('offset' => ($page - 1) * 10, 'count' => 10)
   );
+
+  // Form Templates.
+  $templates = array(
+    (object) array(
+      'name' => 'Blank Form',
+      'template' => ''
+    ),
+    (object) array(
+      'name' => 'Test',
+      'template' => '{"meta":{"title":"Untitled Form","description":"","expires":false,"expiry":null},"items":[{"type":0,"question":"","description":"","isRequired":false,"isValidated":false,"validation":null}]}'
+    )
+  );
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -157,10 +169,22 @@
             }
           ?>
         </li>
+        <div id="form-templates">
+          <li class="list-group-item row m-0 pb-0 d-flex justify-content-around align-items-center">
+            <?php
+              foreach ($templates as $index => $template) {
+                echo '<button type="button" class="btn btn-outline-success mb-2" onclick="new_form(' . $index . ')">' . $template->name . '</button>';
+              }
+            ?>
+          </li>
+        </div>
       </ul>
     </div>
 
     <script type="text/javascript">
+      let t = '<?php echo json_encode($templates);?>';
+      let templates = JSON.parse('<?php echo addslashes(json_encode($templates, JSON_HEX_APOS | JSON_HEX_QUOT))?>');
+
       let search_button = function() {
         let search_string = document.querySelector('#search-string').value;
         window.location = "<?php echo DOMAIN . 'dashboard.php?sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' ?>" + encodeURIComponent(search_string);
@@ -176,6 +200,15 @@
         let form = document.createElement('form');
         form.method = 'post';
         form.action = '<?php echo $ROOT_PATH; ?>/form_builder.php';
+
+        if(templates.length <= template + 1) {
+          let template_input = document.createElement('input');
+          template_input.setAttribute('type', 'hidden');
+          template_input.name = 'template';
+          template_input.value = templates[template].template;
+          form.appendChild(template_input);
+        }
+
         document.body.appendChild(form);
         form.submit();
       }

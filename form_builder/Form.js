@@ -175,6 +175,7 @@ class Form {
     return false;
   }
   removeItem(itemId) {
+    if(this.items.length == 1) return;
     // Remove From Items list
     for(let item in this.items) {
       if(this.items[item].id == itemId) {

@@ -46,6 +46,8 @@
 
     <script type="text/javascript">
       let submitEditForm = async function() {
+        console.log(JSON.stringify(form.getFormData()));
+        //return;
         let logged_in = await check_login();
         if(logged_in == false) {
           document.querySelector('#login-button').click();
@@ -78,6 +80,8 @@
 
               document.body.appendChild(form);
               form.submit();
+            } else if (result == 'ERROR: EMPTY FORM') {
+              alert('You can\'t submit an empty form.');
             } else {
               console.log(result);
               alert('Something went wrong...');
@@ -98,7 +102,7 @@
           is_json($_POST['template']) &&
           validate_form(json_decode($_POST['template']))
         ) {
-          echo 'form.constructForm(JSON.parse(' . $_POST['template'] . '));';
+          echo 'form.constructForm(JSON.parse(\'' . $_POST['template'] . '\'));';
         } else {
           echo 'addItem();';
         }

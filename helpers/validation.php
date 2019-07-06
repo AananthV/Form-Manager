@@ -222,7 +222,7 @@
       !property_exists($form, 'items') ||
       !is_array($form->items) ||
       count($form->items) == 0
-      ) return 'ERROR: FORM ITEMS DONT EXIST';
+      ) return 'ERROR: EMPTY FORM';
 
     foreach ($form->items as $item) {
       // Item.
