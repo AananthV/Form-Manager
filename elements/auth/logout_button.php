@@ -1,4 +1,9 @@
 <script type="text/javascript">
+      let restricted_pages = [
+        'Dashboard',
+        'Responses'
+      ];
+
       function logout() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -6,6 +11,9 @@
             switch(this.responseText) {
               case 'SUCCESS':
                 toggle_auth_buttons();
+                if(restricted_pages.includes(document.title)) {
+                  window.location = "<?php echo DOMAIN; ?>";
+                }
                 break;
               case 'ERROR: NOT LOGGED IN':
                 alert('You are not logged in.');

@@ -15,3 +15,12 @@ input[type=radio], input[type=checkbox] {
   margin-top: -1px;
   vertical-align: middle;
 }
+
+.usage-number {
+  font-size: 6em;
+  display: inline-block;
+}
+
+.usage-title {
+  font-size: 2em;
+}

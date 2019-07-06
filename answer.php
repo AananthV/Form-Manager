@@ -15,8 +15,9 @@
     header('Location: ' . DOMAIN . 'form_error.php?error_code=1');
   }
 
-  $form = getForm($_GET['id']);
-  
+  $form_id = $_GET['id'];
+  $form = getForm($form_id);
+
   if($form['meta']->active === false) {
     header('Location: ' . DOMAIN . 'form_error.php?error_code=2');
   }
@@ -106,7 +107,7 @@
             });
             let result = await submit_answer;
             if(result.slice(0, 7) == 'SUCCESS') {
-              window.location = '<?php echo DOMAIN; ?>answer_success.php';
+              window.location = "<?php echo DOMAIN . 'answer_success.php?id=' . $form_id; ?>";
             } else if (result.slice(0, 5) == 'ERROR') {
               if(result == 'ERROR: ALREADY SUBMITTED') {
                 window.location = '<?php echo DOMAIN; ?>form_error.php?error_code=3';

@@ -7,28 +7,20 @@
   function toggle_auth_buttons() {
     buttons = ['#logout-button', '#login-button', '#register-button'];
     for(let button of buttons) {
-      document.querySelector(button).classList.toggle('d-none');
+      for(let btn of document.querySelectorAll(button)) {
+        btn.classList.toggle('d-none');
+      }
+    }
+    if(document.title == 'Home') {
+      document.querySelector('#dashboard-button').classList.toggle('d-none');
     }
   }
   function closeAllModals() {
-
-    // get modals
-    const modals = document.getElementsByClassName('modal');
-
-    // on every modal change state like in hidden modal
-    for(let i=0; i<modals.length; i++) {
-      modals[i].classList.remove('show');
-      modals[i].setAttribute('aria-hidden', 'true');
-      modals[i].setAttribute('style', 'display: none');
+    // Get modal close buttons.
+    let close_buttons = document.querySelectorAll('.close');
+    for(let cb of close_buttons) {
+      cb.click();
     }
-
-     // get modal backdrops
-     const modalsBackdrops = document.getElementsByClassName('modal-backdrop');
-
-     // remove every modal backdrop
-     for(let i=0; i<modalsBackdrops.length; i++) {
-       document.body.removeChild(modalsBackdrops[i]);
-     }
   }
 
   function check_login() {

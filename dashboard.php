@@ -101,7 +101,7 @@
       <ul id="form-list" class="list-group mb-5">
         <li class="list-group-item d-flex flex-column flex-lg-row-reverse">
           <div class="col-12 col-lg-5 d-flex flex-column flex-sm-row align-items-center mb-2 mb-lg-0">
-            <div class="custom-control custom-switch">
+            <div class="custom-control custom-switch mb-2 mb-md-0">
               <input type="checkbox" class="custom-control-input" id="active-switch" oninput="toggle_active_items()">
               <label class="custom-control-label" for="active-switch">Show Inactive</label>
             </div>

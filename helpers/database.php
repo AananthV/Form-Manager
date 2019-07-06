@@ -78,7 +78,11 @@
 
     $sql = 'SELECT ' . implode(',', $fields) . ' FROM ' . $table;
 
-    if(!is_null($keys)) {
+    if(
+      !is_null($keys) &&
+      is_array($keys) &&
+      count($keys) > 0
+    ) {
       $findQuery = '';
       foreach ($keys as $key => $value) {
         if(
@@ -98,7 +102,11 @@
       $sql .= ' WHERE ' . $findQuery;
     }
 
-    if(!is_null($orders)) {
+    if(
+      !is_null($orders) &&
+      is_array($orders) &&
+      count($orders) > 0
+    ) {
       $orderQuery = '';
       foreach ($orders as $key => $value) {
         $orderQuery .= $key . ' ' . $value . ', ';
@@ -107,7 +115,11 @@
       $sql .= ' ORDER BY ' . $orderQuery;
     }
 
-    if(!is_null($limit)) {
+    if(
+      !is_null($limit) &&
+      isset($limit['offset']) &&
+      isset($limit['count'])
+    ) {
       $sql .= ' LIMIT ' . $limit['offset'] . ', ' . $limit['count'];
     }
 
