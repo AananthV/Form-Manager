@@ -96,6 +96,8 @@
   <body>
     <?php require_once('elements/navbar.php'); ?>
 
+    <div id="top"></div>
+
     <div class="container">
       <h1>Forms</h1>
       <ul id="form-list" class="list-group mb-5">
@@ -132,13 +134,13 @@
             <button class="btn btn-outline-success" onclick="sort_button()">Go!</button>
           </div>
         </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center" id="first-nav">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
           <?php
             if($page > 1) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Prev</a>';
             }
           ?>
-          <a class="btn btn-success" onclick="new_form_button()" href="#first-nav">New Form</a>
+          <a class="btn btn-success" onclick="new_form_button()">New Form</a>
           <?php
             if(count($user_forms) == 10) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Next</a>';
@@ -186,7 +188,7 @@
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Prev</a>';
             }
           ?>
-          <a class="btn btn-success" onclick="new_form_button()" href="#first-nav">New Form</a>
+          <a class="btn btn-success" onclick="new_form_button()" href="#top">New Form</a>
           <?php
             if(count($user_forms) == 10) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Next</a>';
