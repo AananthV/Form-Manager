@@ -115,7 +115,6 @@ class DataValidation {
       dropdownItem.setAttribute('type', 'button');
       dropdownItem.setAttribute('class', 'dropdown-item');
       dropdownItem.onclick = function() {
-        console.log('clicked');
         if(key != self.type) {
           self.type = key;
           self.subtype = value['default_subtype'];

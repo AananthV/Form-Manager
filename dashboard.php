@@ -71,18 +71,6 @@
     array($sort_by => $sort_order),
     array('offset' => ($page - 1) * 10, 'count' => 10)
   );
-
-  // Form Templates.
-  $templates = array(
-    (object) array(
-      'name' => 'Blank Form',
-      'template' => ''
-    ),
-    (object) array(
-      'name' => 'Test',
-      'template' => '{"meta":{"title":"Untitled Form","description":"","expires":false,"expiry":null},"items":[{"type":0,"question":"","description":"","isRequired":false,"isValidated":false,"validation":null}]}'
-    )
-  );
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -94,7 +82,7 @@
 
     <div class="container">
       <h1>Forms</h1>
-      <ul id="form-list" class="list-group">
+      <ul id="form-list" class="list-group mb-5">
         <li class="list-group-item d-flex flex-column flex-lg-row-reverse">
           <div class="col-12 col-lg-5 align-items-center mb-2 mb-lg-0">
             <div class="input-group">
@@ -162,28 +150,58 @@
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '">Prev</a>';
             }
           ?>
-          <button type="button" class="btn btn-success" onclick="new_form(0)">New Form</button>
+          <button type="button" class="btn btn-success" onclick="new_form_button()">New Form</button>
           <?php
             if(count($user_forms) == 10) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '">Next</a>';
             }
           ?>
         </li>
-        <div id="form-templates">
-          <li class="list-group-item row m-0 pb-0 d-flex justify-content-around align-items-center">
-            <?php
-              foreach ($templates as $index => $template) {
-                echo '<button type="button" class="btn btn-outline-success mb-2" onclick="new_form(' . $index . ')">' . $template->name . '</button>';
-              }
-            ?>
-          </li>
-        </div>
+        <li id="form-templates" class="list-group-item row m-0 pb-0 d-none justify-content-around align-items-center">
+          <h5>Templates</h5>
+        </li>
       </ul>
     </div>
 
     <script type="text/javascript">
-      let t = '<?php echo json_encode($templates);?>';
-      let templates = JSON.parse('<?php echo addslashes(json_encode($templates, JSON_HEX_APOS | JSON_HEX_QUOT))?>');
+      let templates = [
+        {
+          'name': 'Blank Form',
+          'template': ''
+        },
+        {
+          'name': 'Contact Information',
+          'template': `{"meta":{"title":"Contact Information","description":"","expires":false,"expiry":null},"items":[{"id":"1","type":0,"question":"Name","description":"","isRequired":true,"isValidated":false,"validation":null},{"id":"2","type":0,"question":"Email","description":"","isRequired":true,"isValidated":true,"validation":{"type":"string","subtype":"email","left":"","right":""}},{"id":"3","type":1,"question":"Address","description":"","isRequired":true,"isValidated":false,"validation":null},{"id":"4","type":0,"question":"Phone Number","description":"","isRequired":true,"isValidated":false,"validation":null},{"id":"5","type":1,"question":"Comments","description":"","isRequired":false,"isValidated":false,"validation":null}]}`
+        },
+        {
+          'name': 'Event RSVP',
+          'template': `{"meta":{"title":"Event RSVP","description":"","expires":false,"expiry":null},"items":[{"id":"1","type":2,"question":"Can you attend?","description":"","isRequired":true,"hasOther":false,"choices":[{"value":"Yes,  I'll be there","id":"option-1","isOther":false},{"value":"Sorry, can't make it","id":"option-2","isOther":false}]},{"id":"2","type":1,"question":"What are the names of people attending?","description":"","isRequired":false,"isValidated":false,"validation":null},{"id":"3","type":2,"question":"How did you hear about this event?","description":"","isRequired":false,"hasOther":false,"choices":[{"value":"Website","id":"option-3","isOther":false},{"value":"Friend","id":"option-4","isOther":false},{"value":"Newsletter","id":"option-5","isOther":false},{"value":"Advertisement","id":"option-6","isOther":false}]},{"id":"4","type":1,"question":"Comments and/or questions","description":"","isRequired":false,"isValidated":false,"validation":null}]}`
+        },
+        {
+          'name': 'T-Shirt Sign Up',
+          'template': `{"meta":{"title":"T-Shirt Sign Up","description":"Enter your name and size to sign up for a T-Shirt.","expires":false,"expiry":null},"items":[{"id":"1","type":0,"question":"Name","description":"","isRequired":true,"isValidated":false,"validation":null},{"id":"2","type":2,"question":"Shirt Size","description":"","isRequired":true,"hasOther":false,"choices":[{"value":"XS","id":"option-1","isOther":false},{"value":"S","id":"option-2","isOther":false},{"value":"M","id":"option-3","isOther":false},{"value":"L","id":"option-4","isOther":false},{"value":"XL","id":"option-5","isOther":false},{"value":"XXL","id":"option-6","isOther":false}]}]}`
+        },
+        {
+          'name': 'Event Registration',
+          'template': `{"meta":{"title":"Event Registration","description":"Event Timing: January 4th-6th, 2016<br>Event Address: 123 Your Street Your City, ST 12345<br>Contact us at (123) 456-7890 or no_reply@example.com","expires":false,"expiry":null},"items":[{"id":"1","type":0,"question":"Name","description":"","isRequired":true,"isValidated":false,"validation":null},{"id":"2","type":0,"question":"Email","description":"","isRequired":true,"isValidated":true,"validation":{"type":"string","subtype":"email","left":"","right":""}},{"id":"3","type":0,"question":"Organisation","description":"","isRequired":true,"isValidated":false,"validation":null},{"id":"4","type":3,"question":"Which days will you attend?","description":"","isRequired":true,"hasOther":false,"choices":[{"value":"Day 1","id":"option-1","isOther":false},{"value":"Day 2","id":"option-2","isOther":false},{"value":"Day 3","id":"option-3","isOther":false}]},{"id":"5","type":2,"question":"Dietary Restrictions","description":"","isRequired":true,"hasOther":false,"choices":[{"value":"Vegetarian","id":"option-4","isOther":false},{"value":"Non-Veg cr00keD bRaIn","id":"option-5","isOther":false}]},{"id":"6","type":1,"question":"Any comments/questions?","description":"","isRequired":false,"isValidated":false,"validation":null}]}`
+        }
+      ];
+
+      for(let t in templates) {
+        let tb = document.createElement('button');
+        tb.setAttribute('type', 'button');
+        tb.setAttribute('class', 'btn btn-outline-success mb-2');
+        tb.onclick = function() {
+          new_form(t);
+        }
+        tb.innerHTML = templates[t].name;
+        document.querySelector('#form-templates').appendChild(tb);
+      }
+
+      let new_form_button = function() {
+        document.querySelector('#form-templates').classList.toggle('d-none');
+        document.querySelector('#form-templates').classList.toggle('d-flex');
+      }
 
       let search_button = function() {
         let search_string = document.querySelector('#search-string').value;

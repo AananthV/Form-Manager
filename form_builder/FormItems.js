@@ -7,8 +7,7 @@ class FormItem {
       "Description": false
     };
     this.isRequired = false;
-    let currentTime = new Date();
-    this.id = currentTime.getTime();
+    this.id = Math.random().toString().replace('0.', '');
   }
   constructItem(itemData) {
     for(let [key, value] of Object.entries(itemData)) {
@@ -63,13 +62,14 @@ class FormItem {
 
     if(this.extras['Description']) {
       header.appendChild(document.createElement('br'));
-      let descriptionInput = document.createElement('input');
-      descriptionInput.setAttribute('type', 'text');
+      let descriptionInput = document.createElement('textarea');
+      //descriptionInput.setAttribute('type', 'text');
       descriptionInput.setAttribute('maxlength', 512);
       descriptionInput.setAttribute('class', 'form-control col');
       descriptionInput.setAttribute('id', 'description-' + this.id);
       descriptionInput.setAttribute('placeholder', 'Description');
-      descriptionInput.value = this.description || '';
+      descriptionInput.setAttribute('rows', 3);
+      descriptionInput.innerHTML = this.description.replace(/<br\s*[\/]?>/gi, "\n") || '';
       descriptionInput.oninput = function() {
         self.description = this.value;
       }
@@ -117,7 +117,7 @@ class FormItem {
       'id': this.id,
       'type': this.type,
       'question': this.question || '',
-      'description': this.description || '',
+      'description': this.description.replace(/\n/g, "<br />") || '',
       'isRequired': this.isRequired
     }
     for(let [key, value] of Object.entries(this.getItemSpecificData())) {
@@ -143,7 +143,7 @@ class FormItem {
     if(this.extras['Description'] && this.description.length > 0) {
       let description = document.createElement('div');
       description.setAttribute('class', 'form-item-description');
-      description.appendChild(document.createTextNode(this.description));
+      description.innerHTML = this.description;
       header.appendChild(description);
     }
 
@@ -293,11 +293,10 @@ class ChoiceInput extends FormItem {
     return itemSpecificData;
   }
   addChoice() {
-    let currentTime = new Date();
     this.choices.push(
       {
         'value': '',
-        'id': 'option-' + currentTime.getTime(),
+        'id': 'option-' + Math.random().toString().replace('0.', ''),
         'isOther': false
       }
     );
@@ -350,11 +349,10 @@ class SelectChoice extends ChoiceInput {
   }
   addOtherChoice() {
     this.hasOther = true;
-    let currentTime = new Date();
     this.choices.push(
       {
         'value': '',
-        'id': currentTime.getTime(),
+        'id': Math.random().toString().replace('0.', ''),
         'isOther': true
       }
     );

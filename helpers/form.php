@@ -100,7 +100,8 @@
     $form_data = array();
 
     // Get Meta
-    $form_data['meta'] = (object) getValues('forms', array('id', 'title', 'description', 'questions', 'expires', 'expiry'), array('id' => $form_id))[0];
+    $form_data['meta'] = (object) getValues('forms', array('id', 'title', 'description', 'questions', 'active', 'expires', 'expiry'), array('id' => $form_id))[0];
+    $form_data['meta']->active = $form_data['meta']->active == 1;
     $form_data['meta']->expires = $form_data['meta']->expires == 1;
 
     // Get Questions
@@ -241,7 +242,7 @@
           array('value'),
           array('parent_answer' => $answer_id, 'question' => $question['id'])
         );
-        if($answer !== false) {
+        if($answer != false) {
           $answer_data[$question['id']] = $answer[0]['value'];
         } else {
           $answer_data[$question['id']] = 'Not Answered.';

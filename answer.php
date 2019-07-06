@@ -16,8 +16,8 @@
   }
 
   $form = getForm($_GET['id']);
-
-  if($form->active != 1) {
+  
+  if($form['meta']->active === false) {
     header('Location: ' . DOMAIN . 'form_error.php?error_code=2');
   }
 ?>
@@ -133,7 +133,7 @@
 
       let form = new Form(mainContainer);
 
-      form.constructForm(JSON.parse('<?php echo json_encode($form); ?>'));
+      form.constructForm(JSON.parse(`<?php echo addslashes(json_encode($form)); ?>`));
 
       form.drawForm();
     </script>

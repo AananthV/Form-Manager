@@ -33,8 +33,8 @@ class Form {
     if(this.description.length > 0) {
       let description = document.createElement('div');
       description.setAttribute('class', 'form-description');
-      description.appendChild(document.createTextNode(this.description));
-      header.appendChild(desciption);
+      description.innerHTML = this.description;
+      header.appendChild(description);
     }
 
     return header;
@@ -64,13 +64,14 @@ class Form {
     //header.appendChild(document.createElement('br'));
 
     // Create description Field
-    let descriptionField = document.createElement('input');
-    descriptionField.setAttribute('type', 'text');
+    let descriptionField = document.createElement('textarea');
+    //descriptionField.setAttribute('type', 'text');
     descriptionField.setAttribute('class', 'form-control');
     descriptionField.setAttribute('id', 'form-description');
     descriptionField.setAttribute('placeholder', 'Form description');
-    descriptionField.setAttribute('value', this.description || '');
+    descriptionField.innerHTML = this.description.replace(/<br\s*[\/]?>/gi, "\n") || '';
     descriptionField.setAttribute('maxlength', 512);
+    descriptionField.setAttribute('rows', 3);
     descriptionField.oninput = function() {
       self.description = this.value;
     }
@@ -289,7 +290,7 @@ class Form {
       'owner': this.owner,
       'meta': {
         'title': this.title || 'Untitled Form',
-        'description': this.desciption || '',
+        'description': this.description.replace(/\n/g, "<br />") || '',
         'expires': this.expires,
         'expiry': {
           'datetime': this.headerContainer.querySelector('#form-expiry-date').value + ' ' + this.headerContainer.querySelector('#form-expiry-time').value,
