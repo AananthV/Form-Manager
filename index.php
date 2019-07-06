@@ -98,9 +98,9 @@
         </div>
         <hr class="my-4">
         <div class="d-flex flex-row justify-content-around">
-          <button type="button" id="login-button" class="btn btn-primary + <?php echo ($logged_in ? 'd-none' : ''); ?> + " data-toggle="modal" data-target="#loginModal">Log In</button>
-          <button type="button" id="register-button" class="btn btn-primary + <?php echo ($logged_in ? 'd-none' : ''); ?> + " data-toggle="modal" data-target="#registerModal">Register</button>
-          <a id="dashboard-button" class="btn btn-primary + <?php echo ($logged_in ? '' : 'd-none'); ?> + " href="<?php echo DOMAIN; ?>dashboard.php">Dashboard</a>
+          <button type="button" id="login-button" class="btn btn-primary btn-lg + <?php echo ($logged_in ? 'd-none' : ''); ?> + " data-toggle="modal" data-target="#loginModal">Log In</button>
+          <button type="button" id="register-button" class="btn btn-primary btn-lg + <?php echo ($logged_in ? 'd-none' : ''); ?> + " data-toggle="modal" data-target="#registerModal">Register</button>
+          <a id="dashboard-button" class="btn btn-primary btn-lg + <?php echo ($logged_in ? '' : 'd-none'); ?> + " href="<?php echo DOMAIN; ?>dashboard.php">Dashboard</a>
         </div>
       </div>
     </div>

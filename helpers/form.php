@@ -30,6 +30,9 @@
         'choice' => $choice->value,
         'isOther' => property_exists($choice, 'isOther') && $choice->isOther || false
       );
+      if($values['isOther'] == true) {
+        $values['choice'] == 'Other';
+      }
       if(insertValues('choices', $values) == false) return false;
     }
   }
@@ -164,7 +167,9 @@
         'choice' => $choice_id
       )
     );
-    return $insert != false;
+    if($insert==false) return false;
+    $updateChoices = getDBInstance()->prepare('UPDATE choices SET times_chosen = times_chosen + 1 WHERE id=' . $choice_id);
+    return true;
   }
 
   function addAnswer($answer_data) {
@@ -207,11 +212,11 @@
   }
 
   function getAnswer($form_id, $answer_id) {
-    $answer_data = array();
-
     if(
       !checkIfRowExists('answers', array('id' => $answer_id, 'form' => $form_id))
       ) return false;
+
+    $answer_data = array();
 
     $meta_data = getValues('answers', array('user', 'answered'), array('id' => $answer_id));
 
@@ -284,5 +289,111 @@
       }
     }
     return $answer_data;
+  }
+
+  function getAnswerer($answer_id) {
+    $user_id = getValues('answers', array('user'), array('id' => $answer_id))[0]['user'];
+    if($user_id == false) return false;
+    return getValues('users', array('username'), array('id' => $user_id))[0]['username'];
+  }
+
+  function getFormAnswers($form_id) {
+    if(
+      !checkIfRowExists('forms', array('id' => $form_id))
+      ) return false;
+
+    $form_answers = array();
+
+    $form_questions = getValues(
+      'questions',
+      array('id', 'type', 'question', 'hasOther'),
+      array('parent_form' => $form_id)
+    );
+
+    foreach ($form_questions as $question) {
+
+      $form_item = array(
+        'question' => $question['question'],
+        'type' => $question['type'],
+        'answers' => array()
+      );
+
+      if($question['type'] == 0) {
+
+        $user_answers = getValues(
+          'short_text_answers',
+          array('parent_answer', 'value'),
+          array('question' => $question['id'])
+        );
+
+        foreach ($user_answers as $user_answer) {
+          $form_item['answers'][] = array(
+            'username' => getAnswerer($user_answer['parent_answer']),
+            'value' => $user_answer['value']
+          );
+        }
+
+      } else if($question['type'] == 1) {
+
+        $user_answers = getValues(
+          'long_text_answers',
+          array('parent_answer', 'value'),
+          array('question' => $question['id'])
+        );
+
+        foreach ($user_answers as $user_answer) {
+          $form_item['answers'][] = array(
+            'username' => getAnswerer($user_answer['parent_answer']),
+            'value' => $user_answer['value']
+          );
+        }
+
+      } else if($question['type'] < 5) {
+
+        $answers = array(
+          'choices' => array(),
+          'hasOther' => $question['hasOther'] == 1,
+          'otherAnswers' => array()
+        );
+
+        $choices = getValues(
+          'choices',
+          array('choice', 'times_chosen'),
+          array('parent_question' => $question['id'])
+        );
+
+        foreach ($choices as $choice) {
+          $answers['choices'][] = array(
+            'value' => $choice['choice'],
+            'times_chosen' => $choice['times_chosen']
+          );
+        }
+
+        if($answers['hasOther'] == true) {
+
+          $otherAnswers = getValues(
+            'short_text_answers',
+            array('parent_answer', 'value'),
+            array('question' => $question['id'])
+          );
+
+          foreach ($otherAnswers as $user_answer) {
+            $answers['otherAnswers'][] = array(
+              'username' => getAnswerer($user_answer['parent_answer']),
+              'value' => $user_answer['value']
+            );
+          }
+
+        }
+
+        $form_item['answers'] = $answers;
+
+      }
+
+      $form_answers[] = $form_item;
+
+    }
+
+    return $form_answers;
   }
 ?>

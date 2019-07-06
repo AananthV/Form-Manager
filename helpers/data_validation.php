@@ -111,7 +111,7 @@
   function validate_username($username) {
     if(!is_string($username)) return false;
 
-    return preg_match("/^[a-z0-9_-]{6,32}$/", $username);
+    return preg_match("/^[a-z0-9_-]{6,14}$/", $username);
   }
   function validate_password($password) {
     if(!is_string($password)) return false;

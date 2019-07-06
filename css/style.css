@@ -24,3 +24,13 @@ input[type=radio], input[type=checkbox] {
 .usage-title {
   font-size: 2em;
 }
+
+.text-answer-holder {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.chart {
+  width: 100%;
+  min-height: 300px;
+}
