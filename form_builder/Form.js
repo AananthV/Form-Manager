@@ -95,8 +95,8 @@ class Form {
     expirySwitch.setAttribute('class', 'custom-control-input');
     expirySwitch.setAttribute('id', 'form-expiry-switch');
     expirySwitch.checked = this.expires;
-    expirySwitch.oninput = function() {
-      form.expires = !form.expires;
+    expirySwitch.onchange = function() {
+      self.expires = !self.expires;
     }
     switchDiv.appendChild(expirySwitch);
 
