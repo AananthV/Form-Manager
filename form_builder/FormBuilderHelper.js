@@ -88,7 +88,7 @@ function getItemRequiredSwitch(itemId, isRequired) {
   requiredSwitch.setAttribute('class', 'custom-control-input');
   requiredSwitch.setAttribute('id', 'required-switch-' + itemId);
   requiredSwitch.checked = isRequired;
-  requiredSwitch.oninput = function() {
+  requiredSwitch.onchange = function() {
     form.toggleIsRequired(itemId);
   }
   switchDiv.appendChild(requiredSwitch);
