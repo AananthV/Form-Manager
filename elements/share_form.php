@@ -18,6 +18,12 @@
             <button type="button" id="share-link-copy" class="btn btn-outline-secondary" onclick="copy_share_link()">Copy</button>
           </div>
         </div>
+        <a class="btn btn-outline-primary" id="facebook-share-link" target="_blank">
+          <i class="fab fa-facebook-f fa-fw"></i> Share
+        </a>
+        <a class="btn btn-outline-primary" id="twitter-share-link" target="_blank">
+          <i class="fab fa-twitter fa-fw"></i> Tweet
+        </a>
       </div>
     </div>
   </div>
@@ -26,6 +32,8 @@
 <script type="text/javascript">
     let share_form = function(form_id) {
       document.querySelector('#share-link').value = "<?php echo DOMAIN; ?>answer.php?id=" + form_id;
+      document.querySelector('#facebook-share-link').setAttribute('href', "https://www.facebook.com/sharer/sharer.php?u=" + "<?php echo DOMAIN; ?>answer.php?id=" + form_id);
+      document.querySelector('#twitter-share-link').setAttribute('href', "https://twitter.com/home?status=" + "Check this form out! <?php echo DOMAIN; ?>answer.php?id=" + form_id);
       document.querySelector('#share-modal-toggle').click();
     }
     let copy_share_link = function() {

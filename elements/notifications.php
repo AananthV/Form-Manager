@@ -52,7 +52,7 @@
     if(notification_data['type'].substr(0, 1) == 1) {
       notification_data['button'] = {
         'onclick': function() {
-          window.location = "<?php echo DOMAIN; ?>view_responses.php?id=" + notification_data['type'].substr(1) + "&individual_responses=true";
+          window.location = "<?php echo DOMAIN; ?>view_responses.php?id=" + notification_data['type'].substr(1) + "&individual_responses=true&sort=DESC";
         },
         'text': 'View Responses'
       };
