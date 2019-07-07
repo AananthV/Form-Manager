@@ -87,6 +87,15 @@ CREATE TABLE `validation` (
 	PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `notifications` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`user` INT NOT NULL,
+	`type` INT NOT NULL,
+	`title` VARCHAR(128) NOT NULL,
+	`text` VARCHAR(256) NOT NULL,
+	PRIMARY KEY (`id`)
+);
+
 ALTER TABLE `forms` ADD CONSTRAINT `forms_fk0` FOREIGN KEY (`owner`) REFERENCES `users`(`id`);
 
 ALTER TABLE `questions` ADD CONSTRAINT `questions_fk0` FOREIGN KEY (`parent_form`) REFERENCES `forms`(`id`);
@@ -112,3 +121,5 @@ ALTER TABLE `choice_answers` ADD CONSTRAINT `choice_answers_fk1` FOREIGN KEY (`q
 ALTER TABLE `choice_answers` ADD CONSTRAINT `choice_answers_fk2` FOREIGN KEY (`choice`) REFERENCES `choices`(`id`);
 
 ALTER TABLE `validation` ADD CONSTRAINT `validation_fk0` FOREIGN KEY (`question`) REFERENCES `questions`(`id`);
+
+ALTER TABLE `notifications` ADD CONSTRAINT `notifications_fk0` FOREIGN KEY (`user`) REFERENCES `users`(`id`);

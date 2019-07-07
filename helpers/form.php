@@ -168,8 +168,22 @@
       )
     );
     if($insert==false) return false;
-    $updateChoices = getDBInstance()->prepare('UPDATE choices SET times_chosen = times_chosen + 1 WHERE id=' . $choice_id);
+    $updateChoices = getDBInstance()->query('UPDATE choices SET times_chosen = times_chosen + 1 WHERE id=' . $choice_id);
     return true;
+  }
+
+  function addResponseNotification($form_id, $answerer_id) {
+    $form_data = getValues('forms', array('owner', 'title'), array('id' => $form_id))[0];
+    $answerer = getValues('users', array('username'), array('id' => $answerer_id))[0]['username'];
+    return insertValues(
+      'notifications',
+      array(
+        'user' => $form_data['owner'],
+        'type' => 1 . '' . $form_id,
+        'title' => $form_data['title'],
+        'text' => '<strong>' . $answerer . '</strong> answered your form.'
+      )
+    );
   }
 
   function addAnswer($answer_data) {
@@ -186,6 +200,8 @@
     getDBInstance()->query('UPDATE forms SET answers = answers + 1 WHERE id=' . $answer_data->form);
 
     getDBInstance()->query('UPDATE users SET answers = answers + 1 WHERE id=' . $answer_data->user);
+
+    addResponseNotification($answer_data->form, $answer_data->user);
 
     foreach ($answer_data->answers as $answer) {
       if($answer->type == 0 && strlen($answer->answer) > 0) {

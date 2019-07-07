@@ -96,8 +96,6 @@
   <body>
     <?php require_once('elements/navbar.php'); ?>
 
-    <div id="top"></div>
-
     <div class="container">
       <h1>Forms</h1>
       <ul id="form-list" class="list-group mb-5">
@@ -105,7 +103,7 @@
           <div class="col-12 col-lg-5 d-flex flex-column flex-sm-row align-items-center mb-2 mb-lg-0">
             <div class="custom-control custom-switch mb-2 mb-md-0">
               <input type="checkbox" class="custom-control-input" id="active-switch" onchange="toggle_active_items()">
-              <label class="custom-control-label" for="active-switch">Show Inactive</label>
+              <label class="custom-control-label" for="active-switch">Show Expired</label>
             </div>
             <div class="input-group">
               <input type="search" class="form-control" placeholder="Search" aria-label="Search" id="search-string" value="<?php echo $search_string; ?>">
@@ -140,7 +138,7 @@
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Prev</a>';
             }
           ?>
-          <a class="btn btn-success" onclick="new_form_button()">New Form</a>
+          <a class="btn btn-success" onclick="new_form_button()" href="#">New Form</a>
           <?php
             if(count($user_forms) == 10) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Next</a>';
@@ -188,7 +186,7 @@
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Prev</a>';
             }
           ?>
-          <a class="btn btn-success" onclick="new_form_button()" href="#top">New Form</a>
+          <a class="btn btn-success" onclick="new_form_button()" href="#">New Form</a>
           <?php
             if(count($user_forms) == 10) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Next</a>';

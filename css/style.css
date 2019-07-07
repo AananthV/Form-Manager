@@ -26,11 +26,39 @@ input[type=radio], input[type=checkbox] {
 }
 
 .text-answer-holder {
-  height: 200px;
+  max-height: 200px;
   overflow-y: scroll;
 }
 
 .chart {
   width: 100%;
   min-height: 300px;
+}
+
+#notification-list {
+  position: fixed;
+  z-index: 999;
+  top: 68px;
+  right: 8px;
+}
+
+@media only screen and (max-width: 576px) {
+  #notification-list {
+    left: 8px;
+  }
+}
+
+.notification {
+  -webkit-animation: fadeIn 0.5s;
+  animation: fadeIn 0.5s;
+}
+
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }

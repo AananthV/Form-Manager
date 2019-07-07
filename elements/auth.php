@@ -2,6 +2,7 @@
   require_once('auth/login_form.php');
   require_once('auth/register_form.php');
   require_once('auth/logout_button.php');
+  require_once('notifications.php');
 ?>
 <script type="text/javascript">
   function toggle_auth_buttons() {
