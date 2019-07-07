@@ -1,5 +1,5 @@
 # Form Manager
-A simple form manager built using raw php, mysql and Node.JS.
+A simple, open source form manager built using raw PHP, MySQL and Node.JS.
 
 # Set Up
 1. Put all files in your `htdocs` folder.

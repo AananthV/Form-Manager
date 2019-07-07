@@ -18,6 +18,8 @@
             <button type="button" id="share-link-copy" class="btn btn-outline-secondary" onclick="copy_share_link()">Copy</button>
           </div>
         </div>
+
+        <!-- Facebook share doesn't work when you're hosted locally! -->
         <a class="btn btn-outline-primary" id="facebook-share-link" target="_blank">
           <i class="fab fa-facebook-f fa-fw"></i> Share
         </a>
