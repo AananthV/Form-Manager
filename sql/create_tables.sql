@@ -41,6 +41,7 @@ CREATE TABLE `choices` (
 	`parent_question` INT NOT NULL,
 	`choice` varchar(128) NOT NULL,
 	`isOther` BOOLEAN NOT NULL DEFAULT false,
+	`times_chosen` INT NOT NULL DEFAULT '0',
 	PRIMARY KEY (`id`)
 );
 
@@ -111,4 +112,3 @@ ALTER TABLE `choice_answers` ADD CONSTRAINT `choice_answers_fk1` FOREIGN KEY (`q
 ALTER TABLE `choice_answers` ADD CONSTRAINT `choice_answers_fk2` FOREIGN KEY (`choice`) REFERENCES `choices`(`id`);
 
 ALTER TABLE `validation` ADD CONSTRAINT `validation_fk0` FOREIGN KEY (`question`) REFERENCES `questions`(`id`);
-
