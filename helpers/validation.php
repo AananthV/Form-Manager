@@ -73,6 +73,9 @@
             array('question' => $item->question_id)
             )[0];
 
+          $validation['left'] = $validation['_left'];
+          $validation['right'] = $validation['_right'];
+
           if(
             !validate($item->answer, $validation)
           ) {
