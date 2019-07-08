@@ -67,14 +67,16 @@
         }
 
         if($question_data['isValidated'] == 1) {
-          $validation = (object) getValues(
+          $validation = getValues(
             'validation',
             array('type', 'subtype', 'left_', 'right_'),
             array('question' => $item->question_id)
             )[0];
 
-          $validation['left'] = $validation['_left'];
-          $validation['right'] = $validation['_right'];
+          $validation['left'] = $validation['left_'];
+          $validation['right'] = $validation['right_'];
+
+          $validation = (object) $validation;
 
           if(
             !validate($item->answer, $validation)
