@@ -46,6 +46,14 @@ input[type=radio], input[type=checkbox] {
   #notification-list {
     left: 8px;
   }
+  .usage-number {
+    font-size: 4em;
+    display: inline-block;
+  }
+
+  .usage-title {
+    font-size: 1.2em;
+  }
 }
 
 .notification {
