@@ -28,7 +28,7 @@
       $values = array(
         'parent_question' => $parent_question,
         'choice' => $choice->value,
-        'isOther' => property_exists($choice, 'isOther') && $choice->isOther || false
+        'isOther' => (property_exists($choice, 'isOther') && $choice->isOther) ? 1 : 0
       );
       if($values['isOther'] == true) {
         $values['choice'] == 'Other';
@@ -79,8 +79,8 @@
         $item->description,
         $item->type,
         $item->isRequired,
-        property_exists($item, 'hasOther') && $item->hasOther,
-        property_exists($item, 'isValidated') && $item->isValidated
+        (property_exists($item, 'hasOther') && $item->hasOther) ? 1 : 0,
+        (property_exists($item, 'isValidated') && $item->isValidated) ? 1 : 0
       );
 
       if($question_id == false) return false;

@@ -99,8 +99,8 @@
         if(
           isset($_POST['template']) &&
           is_string($_POST['template'])
-          //is_json($_POST['template'])
-          //validate_form(json_decode($_POST['template']))
+          // is_json($_POST['template']) &&
+          // validate_form(json_decode($_POST['template']))
         ) {
           echo 'form.constructForm(JSON.parse(`' . addslashes($_POST['template']) . '`));';
         } else {
