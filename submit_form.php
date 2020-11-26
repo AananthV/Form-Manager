@@ -44,14 +44,26 @@
       return 'ERROR: INCORRECT OWNER';
     }
 
+    
+
     $validation = validate_form($form);
 
     if($validation === true) {
+      // Begin transaction
+      $db = getDbInstance();
+      $db->beginTransaction();
+
       $added = addForm($form);
       $_SESSION['submit'] = false;
       if($added !== false) {
+        // Commit transaction
+        $db->commit();
+        
         return 'SUCCESS' . $added;
       } else {
+        // Error - Rollback Transaction
+        $db->rollback();
+
         return 'ERROR: ADD FORM FAILED: ' . $added;
       }
     } else {

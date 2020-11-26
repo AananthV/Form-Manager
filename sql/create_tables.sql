@@ -16,7 +16,7 @@ CREATE TABLE `forms` (
 	`owner` INT NOT NULL,
 	`title` varchar(128) NOT NULL,
 	`description` varchar(512) NOT NULL,
-	`questions` INT NOT NULL,
+	`questions` INT NOT NULL DEFAULT '0',
 	`answers` INT NOT NULL DEFAULT '0',
 	`active` BINARY NOT NULL DEFAULT true,
 	`expires` BINARY NOT NULL DEFAULT false,

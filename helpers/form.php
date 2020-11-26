@@ -37,12 +37,12 @@
     }
   }
 
-  function addFormData($owner, $title, $description, $questions, $expires = false, $expiry = null) {
+  function addFormData($owner, $title, $description, $expires = false, $expiry = null) {
     $values = array(
       'owner' => $owner,
       'title' => $title,
       'description' => $description,
-      'questions' => $questions,
+      // 'questions' => 0,
       'expires' => $expires,
       'expiry' => $expiry
     );
@@ -63,14 +63,13 @@
       $form_data->owner,
       $form_data->meta->title,
       $form_data->meta->description,
-      count($form_data->items),
       $form_data->meta->expires,
       getExpiry($form_data->meta->expires, $form_data->meta->expiry)
     );
 
     if($form_id == false) return false;
 
-    getDBInstance()->query('UPDATE users SET forms = forms + 1 WHERE id=' . $form_data->owner);
+    // getDBInstance()->query('UPDATE users SET forms = forms + 1 WHERE id=' . $form_data->owner);
 
     foreach ($form_data->items as $item) {
       $question_id = addQuesion(
@@ -197,9 +196,9 @@
 
     if($answer_id == false) return false;
 
-    getDBInstance()->query('UPDATE forms SET answers = answers + 1 WHERE id=' . $answer_data->form);
+    // getDBInstance()->query('UPDATE forms SET answers = answers + 1 WHERE id=' . $answer_data->form);
 
-    getDBInstance()->query('UPDATE users SET answers = answers + 1 WHERE id=' . $answer_data->user);
+    // getDBInstance()->query('UPDATE users SET answers = answers + 1 WHERE id=' . $answer_data->user);
 
     addResponseNotification($answer_data->form, $answer_data->user);
 

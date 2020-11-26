@@ -46,11 +46,21 @@
     $validation = validate_answer($answer);
 
     if($validation === true) {
+      // Begin transaction
+      $db = getDbInstance();
+      $db->beginTransaction();
+
       $added = addAnswer($answer);
       $_SESSION['submit'] = false;
       if($added !== false) {
+        // Commit
+        $db->commit();
+
         return 'SUCCESS';
       } else {
+        // Rollback
+        $db->rollback();
+
         return 'ERROR: ADD ANSWER FAILED.';
       }
     } else {
