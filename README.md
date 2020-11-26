@@ -13,5 +13,8 @@ Inside /form_expiry/,
 2. Install the `mysql` module using `npm`.
 3. Run the expiry module with `node expiry`.
 
+# Entity-Relationship Model
+![ER Diagram](sql/er.png)
+
 # Database Schema
 ![Database Schema](sql/schema.png)

@@ -77,9 +77,9 @@
   <body>
     <?php require_once('elements/navbar.php'); ?>
 
-    <div class="jumbotron">
+    <div class="jumbotron" style="background: #4169e171">
       <div class="container">
-        <h1 class="display-4 d-flex align-items-center"><span>Form Builder</span><a class="btn" href="https://github.com/AananthV/Form-Manager"><i class="fab fa-github fa-fw fa-3x"></i></a></h1>
+        <h1 class="display-4 d-flex align-items-center"><span>Form Builder</span></h1>
         <p class="lead">A simple, open source form manager built using raw PHP, MySQL and Node.JS.</p>
         <hr class="my-4">
         <div class="d-flex flex-row justify-content-around text-center">
@@ -108,19 +108,19 @@
     <div class="container">
       <h1>Explore Active Forms</h1>
       <ul id="form-list" class="list-group mb-5">
-        <li class="list-group-item d-flex flex-column flex-lg-row-reverse">
+        <li class="list-group-item d-flex flex-column flex-lg-row-reverse" style="background: #add8e682">
           <div class="col-12 col-lg-5 d-flex flex-column flex-sm-row align-items-center mb-2 mb-lg-0">
             <div class="input-group">
               <input type="search" class="form-control" placeholder="Search" aria-label="Search" id="search-string" value="<?php echo $search_string; ?>">
               <div class="input-group-append">
-                <button class="btn btn-outline-success" type="button" id="search-button" onclick="search_button()">Search</button>
+                <button class="btn btn-outline-primary" type="button" id="search-button" onclick="search_button()">Search</button>
               </div>
             </div>
           </div>
           <div class="col-12 col-lg-7 d-flex flex-column flex-sm-row align-items-center justify-content-around">
             <span class="mylist-item-title mr-0 mr-sm-2 mb-2 mb-sm-0">Sort By<span class="d-none d-sm-inline">:</span>
             </span>
-            <select class="form-control col mb-2 mb-sm-0" id="sort_by">
+            <select class="form-control col mb-2 mb-sm-0 mr-2" id="sort_by">
               <?php
                 foreach ($sort_by_list as $key => $value) {
                   echo '<option value="' . $key . '"' . (($sort_by == $key) ? ' selected' : '') . '>' . $value . '</option>';
@@ -134,21 +134,23 @@
                 }
               ?>
             </select>
-            <button class="btn btn-outline-success" onclick="sort_button()">Go!</button>
+            <button class="btn btn-outline-primary ml-2" onclick="sort_button()">Go!</button>
           </div>
         </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li class="list-group-item d-flex justify-content-between align-items-center" style="background: #ecf3f9a2">
           <?php
             if($page > 1) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '">Prev</a>';
-            } else {
-              echo '<button type="button" class="btn btn-outline-primary" disabled>Prev</button>';
             }
+              // } else {
+            //   echo '<button type="button" class="btn btn-outline-primary" disabled>Prev</button>';
+            // }
             if(count($forms) == 10) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '">Next</a>';
-            } else {
-              echo '<button type="button" class="btn btn-outline-primary" disabled>Next</button>';
-            }
+            } 
+            // else {
+            //   echo '<button type="button" class="btn btn-outline-primary" disabled>Next</button>';
+            // }
           ?>
         </li>
         <?php
@@ -157,7 +159,7 @@
           }
           foreach ($forms as $form) {
             $date_created = date_create($form['created']);
-            echo '<li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-center">'
+            echo '<li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-center" style="background: #ecf3f9a2">'
                 .'  <div class="col-sm-12 col-md-8 p-0 d-flex flex-column flex-md-row justify-content-between align-items-center">'
                 .'    <span class="mylist-item-title text-center text-md-left text-truncate col-12 col-md-3 col-lg-4">'. $form['title'] . '</span>'
                 .'    <span class="mylist-item text-center text-md-left text-truncate col-12 col-md-4 col-xl-5">' . $form['description'] . '</span>'
@@ -175,7 +177,7 @@
                 .'  <div class="col-sm-12 col-md-4 d-flex flex-row justify-content-around">'
                 .'    <a class="btn btn-outline-secondary col-6" href="'. DOMAIN . 'answer.php?id=' . $form['id'] . '">Answer</a>';
             if($form['active']){
-              echo '    <button type="button" class="btn btn-outline-secondary col-6" onclick=share_form(' . $form['id'] . ')>Share</button>';
+              echo '    <button type="button" class="btn btn-outline-secondary col-6 ml-2" onclick=share_form(' . $form['id'] . ')>Share</button>';
             } else {
               echo '    <button type="button" class="btn btn-outline-secondary col-6" disabled>Expired</button>';
             }
@@ -183,18 +185,14 @@
                 .'</li>';
           }
         ?>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li class="list-group-item d-flex justify-content-between align-items-center" style="background: #ecf3f9a2">
           <?php
             if($page > 1) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '">Prev</a>';
-            } else {
-              echo '<button type="button" class="btn btn-outline-primary" disabled>Prev</button>';
-            }
+            } 
             if(count($forms) == 10) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '">Next</a>';
-            } else {
-              echo '<button type="button" class="btn btn-outline-primary" disabled>Next</button>';
-            }
+            } 
           ?>
         </li>
       </ul>

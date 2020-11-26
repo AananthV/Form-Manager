@@ -97,9 +97,9 @@
     <?php require_once('elements/navbar.php'); ?>
 
     <div class="container">
-      <h1>Forms</h1>
+      <h1 class="mt-2">Forms</h1>
       <ul id="form-list" class="list-group mb-5">
-        <li class="list-group-item d-flex flex-column flex-lg-row-reverse">
+        <li class="list-group-item d-flex flex-column flex-lg-row-reverse" style="background: #add8e682">
           <div class="col-12 col-lg-5 d-flex flex-column flex-sm-row align-items-center mb-2 mb-lg-0">
             <div class="custom-control custom-switch mb-2 mb-md-0">
               <input type="checkbox" class="custom-control-input" id="active-switch" onchange="toggle_active_items()">
@@ -108,14 +108,14 @@
             <div class="input-group">
               <input type="search" class="form-control" placeholder="Search" aria-label="Search" id="search-string" value="<?php echo $search_string; ?>">
               <div class="input-group-append">
-                <button class="btn btn-outline-success" type="button" id="search-button" onclick="search_button()">Search</button>
+                <button class="btn btn-outline-primary" type="button" id="search-button" onclick="search_button()">Search</button>
               </div>
             </div>
           </div>
           <div class="col-12 col-lg-7 d-flex flex-column flex-sm-row align-items-center justify-content-around">
             <span class="mylist-item-title mr-0 mr-sm-2 mb-2 mb-sm-0">Sort By<span class="d-none d-sm-inline">:</span>
             </span>
-            <select class="form-control col mb-2 mb-sm-0" id="sort_by">
+            <select class="form-control col mb-2 mb-sm-0 mr-2" id="sort_by">
               <?php
                 foreach ($sort_by_list as $key => $value) {
                   echo '<option value="' . $key . '"' . (($sort_by == $key) ? ' selected' : '') . '>' . $value . '</option>';
@@ -129,7 +129,7 @@
                 }
               ?>
             </select>
-            <button class="btn btn-outline-success" onclick="sort_button()">Go!</button>
+            <button class="btn btn-outline-primary ml-2" onclick="sort_button()">Go!</button>
           </div>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -154,7 +154,7 @@
           }
           foreach ($user_forms as $form) {
             $date_created = date_create($form['created']);
-            echo '<li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-center">'
+            echo '<li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-center" style="background: #ecf3f9a2">'
                 .'  <div class="col-sm-12 col-md-8 p-0 d-flex flex-column flex-md-row justify-content-between align-items-center">'
                 .'    <span class="mylist-item-title text-center text-md-left text-truncate col-12 col-md-3 col-lg-4">'. $form['title'] . '</span>'
                 .'    <span class="mylist-item text-center text-md-left text-truncate col-12 col-md-4 col-xl-5">' . $form['description'] . '</span>'
@@ -170,7 +170,7 @@
                 .'    </span>'
                 .'  </div>'
                 .'  <div class="col-sm-12 col-md-4 d-flex flex-row justify-content-around">'
-                .'    <a class="btn btn-outline-secondary col-6" href="'. DOMAIN . 'view_responses.php?id=' . $form['id'] . '">See Responses</a>';
+                .'    <a class="btn btn-outline-secondary col-6 mr-2" href="'. DOMAIN . 'view_responses.php?id=' . $form['id'] . '">See Responses</a>';
             if($form['active']){
               echo '    <button type="button" class="btn btn-outline-secondary col-6" onclick=share_form(' . $form['id'] . ')>Share</button>';
             } else {
@@ -186,7 +186,7 @@
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page - 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Prev</a>';
             }
           ?>
-          <a class="btn btn-success" onclick="new_form_button()" href="#">New Form</a>
+          <!-- <a class="btn btn-success" onclick="new_form_button()" href="#">New Form</a> -->
           <?php
             if(count($user_forms) == 10) {
               echo '<a class="btn btn-outline-primary" href="?page=' . ($page + 1) . '&sort_by=' . $sort_by . '&sort_order=' . $sort_order . '&search=' . $search_string . '&show_inactive=' . ($show_inactive?'true':'false') . '">Next</a>';
@@ -223,7 +223,7 @@
       for(let t in templates) {
         let tb = document.createElement('button');
         tb.setAttribute('type', 'button');
-        tb.setAttribute('class', 'btn btn-outline-success mb-2');
+        tb.setAttribute('class', 'btn btn-outline-primary mb-2');
         tb.onclick = function() {
           new_form(t);
         }

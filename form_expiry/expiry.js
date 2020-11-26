@@ -7,7 +7,7 @@ let con = mysql.createConnection({
   password: config.DB_PASSWORD,
   database: config.DB_NAME
 });
-
+console.log("success");
 setInterval(function() {
   let sql = "UPDATE forms SET active = 0, expires = 0 WHERE (expires = 1 AND CURRENT_TIMESTAMP() > expiry)";
   con.query(sql, function (err, result) {
